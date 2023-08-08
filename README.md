@@ -1,52 +1,24 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
+Sets up sample Open AI infrastructure with security considered
 
 ## Features
 
 This project framework provides the following features:
 
-* Feature 1
-* Feature 2
-* ...
+- Sets up app service, Open AI service, cognitive search service, private endpoint, and VNET
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
+- Add bicep extension to VSCode (if developing)
 
 ### Quickstart
-(Add steps to get up and running quickly)
 
 1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
+2. az group create --name [resourceGroupName] --location [location]
+3. az deployment group create --name [deploymentName] --resource-group [resourceGroupName] --template-file ["path to main.bicep"]
 
 ## Resources
 

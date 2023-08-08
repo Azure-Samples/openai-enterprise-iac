@@ -9,12 +9,12 @@ resource cognitive_search_service 'Microsoft.Search/searchServices@2020-08-01' e
   name: cognitiveSearchService
 }
 
-resource privatelink_search_windows_net 'Microsoft.Network/privateDnsZones@2018-09-01' = {
+resource dnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
   name: 'privatelink.search.windows.net'
   location: 'global'
   tags: {}
   properties: {}
-  resource privatelink_search_windows_net_virtualNetworkId 'virtualNetworkLinks' = {
+  resource virtualNetworkLink 'virtualNetworkLinks' = {
     name: virtualNetworkId
     location: 'global'
     properties: {
@@ -53,17 +53,16 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     ]
   }
   tags: {}
-  dependsOn: [privatelink_search_windows_net]
+  dependsOn: [dnsZones]
 
-  resource privateEndpointName_default 'privateDnsZoneGroups' = {
+  resource dnsZoneGroup 'privateDnsZoneGroups' = {
     name: '${privateEndpointName}-default'
-    location: 'global'
     properties: {
       privateDnsZoneConfigs: [
         {
           name: 'privatelink-search-windows-net'
           properties: {
-            privateDnsZoneId: privatelink_search_windows_net.id
+            privateDnsZoneId: dnsZones.id
           }
         }
       ]

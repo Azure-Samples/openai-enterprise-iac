@@ -37,7 +37,7 @@ param privateEndpointName string = '${resourceGroup().name}-privateendpoint'
 @description('The name of the virtual network link')
 param virtualNetworkLinkName string = '${resourceGroup().name}-virtualnetworklink'
 
-module deployVnet './nested_deployVnet.bicep' = {
+module deployVnet './vnet.bicep' = {
   name: 'deployVnet'
   params: {
     location: location
