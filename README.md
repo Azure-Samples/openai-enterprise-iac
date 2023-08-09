@@ -1,22 +1,22 @@
 # Project Name
 
-Sets up sample Open AI infrastructure with security considered
+Sets up a sample Azure Open AI infrastructure project with security considered
 
 ## Features
 
 This project framework provides the following features:
 
-- Sets up app service, Open AI service, cognitive search service, private endpoint, and VNET
+- Sets up app service, Azure Open AI service, cognitive search service, private endpoint, and VNET
 
 ## Getting Started
 
 ### Prerequisites
 
-- Add bicep extension to VSCode (if developing)
+- Add bicep extension to Visual Studio Code (if developing)
 
 ### Quickstart
 
-1. git clone [repository clone url]
+1. git clone https://github.com/Azure-Samples/openai-enterprise-iac.git
 2. az group create --name [resourceGroupName] --location [location]
 3. az deployment group create --name [deploymentName] --resource-group [resourceGroupName] --template-file ["path to main.bicep"]
 

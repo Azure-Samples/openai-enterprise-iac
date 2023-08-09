@@ -7,25 +7,32 @@ param name string = 'openaiproject'
 @description('The location where the resource is created.')
 param location string = resourceGroup().location
 
-@description('SKU value')
-param sku string = 'S0'
+@description('Open AI SKU value')
+param openAiSku string = 'S0'
 
-@description('VNET Name')
+@description('App Service SKU value')
+param appServiceSku string = 'S1'
+
+@description('VNet Name')
 param vnetName string = '${resourceGroup().name}-vnet'
 
 @description('Subnet Name')
 param subnetName string = '${resourceGroup().name}-subnet'
 
-@description('Subnet Name')
+@description('Private endpoint subnet Name')
 param pepSubnetName string = '${resourceGroup().name}-pep-subnet'
 
-@description('The pricing tier of the search service you want to create (for example, basic or standard).')
+@description('The pricing tier of the search service you want to create')
+@allowed([
+  'basic'
+  'standard'
+])
 param cogSearchSku string = 'basic'
 
 @description('The name of the search service')
 param cogServiceName string = '${resourceGroup().name}-cog-search-service-smn'
 
-@description('The open AI name')
+@description('The name of the Open AI service')
 param openAIName string = '${resourceGroup().name}-openaiservice'
 
 @description('The name of the app service')
@@ -37,7 +44,7 @@ param privateEndpointName string = '${resourceGroup().name}-privateendpoint'
 @description('The name of the virtual network link')
 param virtualNetworkLinkName string = '${resourceGroup().name}-virtualnetworklink'
 
-module deployVnet './vnet.bicep' = {
+module vnet './vnet.bicep' = {
   name: 'deployVnet'
   params: {
     location: location
@@ -55,9 +62,10 @@ module appService './app_service.bicep' = {
     appServicePlanName: 'asp'
     subnetName: subnetName
     vnetName: vnetName
+    sku: appServiceSku
   }
   dependsOn: [
-    deployVnet
+    vnet
   ]
 }
 
@@ -66,7 +74,7 @@ module openAi './open_ai.bicep' = {
   params: {
     location: location
     openAIName: openAIName
-    sku: sku
+    sku: openAiSku
     vnetName: vnetName
     subnetName: subnetName
     resourceGroup: resourceGroup().name
@@ -75,7 +83,7 @@ module openAi './open_ai.bicep' = {
     cogServiceName: cogServiceName
   }
   dependsOn: [
-    deployVnet
+    vnet
   ]
 }
 

@@ -5,11 +5,11 @@ param pepSubnetName string
 param vnetName string
 param cognitiveSearchService string
 
-resource cognitive_search_service 'Microsoft.Search/searchServices@2020-08-01' existing = {
+resource cognitive_search_service 'Microsoft.Search/searchServices@2022-09-01' existing = {
   name: cognitiveSearchService
 }
 
-resource dnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
+resource dnsZones 'Microsoft.Network/privateDnsZones@2020-06-01' = {
   name: 'privatelink.search.windows.net'
   location: 'global'
   tags: {}
@@ -26,7 +26,7 @@ resource dnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2021-08-01' existing = {
+resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
   name: vnetName
   resource privateLinkSubnet 'subnets' existing = {
     name: pepSubnetName
@@ -34,7 +34,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-08-01' existing = {
 }
 
 
-resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
+resource privateEndpoint 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   location: location
   name: privateEndpointName
   properties: {

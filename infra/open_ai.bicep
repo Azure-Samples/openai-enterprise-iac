@@ -27,7 +27,7 @@ resource name_resource 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
   }
 }
 
-resource search 'Microsoft.Search/searchServices@2020-08-01' = {
+resource search 'Microsoft.Search/searchServices@2022-09-01' = {
   name: cogServiceName
   location: location
   sku: {
