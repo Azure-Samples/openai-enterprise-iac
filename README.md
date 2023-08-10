@@ -2,11 +2,15 @@
 
 Sets up a sample Azure Open AI infrastructure project with security considered
 
+![image](openaidiagram.svg)
+
+- Azure Open AI is only accessible from this VNET. Please see more information here: https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal
+
 ## Features
 
 This project framework provides the following features:
 
-- Sets up app service, Azure Open AI service, cognitive search service, private endpoint, and VNET
+- Sets up app service, Azure Open AI service, cognitive search service, private endpoint, and VNet
 
 ## Getting Started
 

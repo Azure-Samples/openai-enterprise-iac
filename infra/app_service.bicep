@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param appName string
 param appServicePlanName string
 param location string
@@ -17,7 +20,6 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   location: location
   sku: {
     name: sku
-    tier: 'Standard'
   }
   properties: {
     reserved: true

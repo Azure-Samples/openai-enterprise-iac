@@ -1,10 +1,12 @@
-param vnetName string
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param location string
 param subnetName string
 param pepSubnetName string
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
-  name: vnetName
+  name: '${uniqueString(resourceGroup().id)}-vnet'
   location: location
   properties: {
     addressSpace: {

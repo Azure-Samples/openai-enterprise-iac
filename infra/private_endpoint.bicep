@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param privateEndpointName string
 param location string
 param virtualNetworkId string
