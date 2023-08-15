@@ -28,12 +28,17 @@ param appServiceName string = '${uniqueString(resourceGroup().id)}-appservice'
 @description('The name of the private endpoint')
 param privateEndpointName string = '${uniqueString(resourceGroup().id)}-privateendpoint'
 
+@description('The name of the private endpoint')
+param openAiPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-openai-privateendpoint'
+
 @description('The name of the virtual network link')
 param virtualNetworkLinkName string = '${uniqueString(resourceGroup().id)}-virtualnetworklink'
 
 var vnetName = '${uniqueString(resourceGroup().id)}-vnet'
 var subnetName = '${uniqueString(resourceGroup().id)}-subnet'
 var pepSubnetName = '${uniqueString(resourceGroup().id)}-pep-subnet'
+var openAiPepSubnetName = '${uniqueString(resourceGroup().id)}-openai-pep-subnet'
+
 
 module vnet './vnet.bicep' = {
   name: 'deployVnet'
@@ -41,6 +46,7 @@ module vnet './vnet.bicep' = {
     location: location
     subnetName: subnetName
     pepSubnetName: pepSubnetName
+    openAiPepSubnetName: openAiPepSubnetName
   }
 }
 
@@ -86,6 +92,20 @@ module privateEndpoint './private_endpoint.bicep' = {
     pepSubnetName: pepSubnetName
     vnetName: vnetName
     virtualNetworkId:virtualNetworkLinkName
+  }
+  dependsOn: [
+    openAi
+  ]
+}
+
+module privateEndpointOpenAi './private_endpoint_openai.bicep' = {
+  name: openAiPrivateEndpointName
+  params: {
+    openAiName: openAIName
+    location: location
+    privateEndpointOpenAiName: openAiPrivateEndpointName
+    openAiSubnetName: openAiPepSubnetName
+    vnetName: vnetName
   }
   dependsOn: [
     openAi
