@@ -5,9 +5,10 @@ param location string
 param subnetName string
 param pepSubnetName string
 param openAiPepSubnetName string
+param vnetName string
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
-  name: '${uniqueString(resourceGroup().id)}-vnet'
+  name: vnetName
   location: location
   properties: {
     addressSpace: {

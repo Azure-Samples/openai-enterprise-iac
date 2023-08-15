@@ -41,17 +41,18 @@ var openAiPepSubnetName = '${uniqueString(resourceGroup().id)}-openai-pep-subnet
 
 
 module vnet './vnet.bicep' = {
-  name: 'deployVnet'
+  name: vnetName
   params: {
     location: location
     subnetName: subnetName
     pepSubnetName: pepSubnetName
     openAiPepSubnetName: openAiPepSubnetName
+    vnetName: vnetName
   }
 }
 
 module appService './app_service.bicep' = {
-  name: 'appServices'
+  name: appServiceName
   params: {
     location: location
     appName: appServiceName
@@ -66,7 +67,7 @@ module appService './app_service.bicep' = {
 }
 
 module openAi './open_ai.bicep' = {
-  name: name
+  name: openAIName
   params: {
     location: location
     openAIName: openAIName
@@ -75,6 +76,16 @@ module openAi './open_ai.bicep' = {
     subnetName: subnetName
     resourceGroup: resourceGroup().name
     subscriptionId: subscription().id
+  }
+  dependsOn: [
+    vnet
+  ]
+}
+
+module cognitiveSearch './cognitive_search.bicep' = {
+  name: cogSearchName
+  params: {
+    location: location
     cogSearchSku: cogSearchSku
     cogServiceName: cogSearchName
   }
@@ -83,7 +94,7 @@ module openAi './open_ai.bicep' = {
   ]
 }
 
-module privateEndpoint './private_endpoint.bicep' = {
+module privateEndpoint './private_endpoint_cognitivesearch.bicep' = {
   name: privateEndpointName
   params: {
     cognitiveSearchService: cogSearchName
