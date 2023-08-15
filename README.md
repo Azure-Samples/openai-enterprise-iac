@@ -2,7 +2,7 @@
 
 Sets up a sample Azure Open AI infrastructure project with security considered
 
-![image](openaidiagram.svg)
+![image](openaidiagrampe.svg)
 
 - Azure Open AI is only accessible from this VNET. Please see more information here: https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal
 
