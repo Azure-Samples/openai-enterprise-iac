@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-@description('The project name or prefix for all resources.')
-param name string = 'openaiproject'
-
 @description('The location where the resource is created.')
 param location string = resourceGroup().location
 
-@description('Open AI SKU value')
+@description('Azure Open AI SKU value')
 param openAiSku string = 'S0'
 
 @description('App Service SKU value')
@@ -94,7 +91,7 @@ module cognitiveSearch './cognitive_search.bicep' = {
   ]
 }
 
-module privateEndpoint './private_endpoint_cognitivesearch.bicep' = {
+module privateEndpointCognitiveSearch './private_endpoint_cognitivesearch.bicep' = {
   name: privateEndpointName
   params: {
     cognitiveSearchService: cogSearchName
@@ -120,6 +117,7 @@ module privateEndpointOpenAi './private_endpoint_openai.bicep' = {
   }
   dependsOn: [
     openAi
+    vnet
   ]
 }
 

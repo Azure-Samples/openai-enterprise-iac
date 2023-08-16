@@ -57,5 +57,4 @@ resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' =
       ]
     }
   }
-  
 }
