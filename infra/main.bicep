@@ -23,7 +23,7 @@ param openAIName string = '${uniqueString(resourceGroup().id)}-openaiservice'
 param appServiceName string = '${uniqueString(resourceGroup().id)}-appservice'
 
 @description('The name of the private endpoint')
-param privateEndpointName string = '${uniqueString(resourceGroup().id)}-privateendpoint'
+param privateEndpointName string = '${uniqueString(resourceGroup().id)}-cognitivesearch-privateendpoint'
 
 @description('The name of the private endpoint')
 param openAiPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-openai-privateendpoint'
@@ -102,7 +102,7 @@ module privateEndpointCognitiveSearch './private_endpoint_cognitivesearch.bicep'
     virtualNetworkId:virtualNetworkLinkName
   }
   dependsOn: [
-    openAi
+    cognitiveSearch
   ]
 }
 
@@ -117,7 +117,7 @@ module privateEndpointOpenAi './private_endpoint_openai.bicep' = {
   }
   dependsOn: [
     openAi
-    vnet
+    privateEndpointCognitiveSearch
   ]
 }
 
