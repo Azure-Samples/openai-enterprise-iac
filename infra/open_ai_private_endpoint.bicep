@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-param privateEndpointOpenAiName string
+param privateEndpointOpenAIName string
 param location string
-param openAiSubnetName string
+param openAISubnetName string
 param vnetName string
-param openAiName string
+param openAIName string
 
-resource open_ai 'Microsoft.CognitiveServices/accounts@2022-03-01' existing = {
-  name: openAiName
+resource openAI 'Microsoft.CognitiveServices/accounts@2022-03-01' existing = {
+  name: openAIName
 }
 
 resource dnsZones 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
@@ -18,14 +18,14 @@ resource dnsZones 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
   name: vnetName
   resource privateLinkSubnet 'subnets' existing = {
-    name: openAiSubnetName
+    name: openAISubnetName
   }
 }
 
 
 resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   location: location
-  name: privateEndpointOpenAiName
+  name: privateEndpointOpenAIName
   properties: {
     subnet: {
       id: vnet::privateLinkSubnet.id
@@ -33,9 +33,9 @@ resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' =
     customNetworkInterfaceName: 'pe-nic-openai'
     privateLinkServiceConnections: [
       {
-        name: privateEndpointOpenAiName
+        name: privateEndpointOpenAIName
         properties: {
-          privateLinkServiceId: open_ai.id
+          privateLinkServiceId: openAI.id
           groupIds: ['account']
         }
       }
@@ -45,7 +45,7 @@ resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' =
   dependsOn: [dnsZones]
 
   resource dnsZoneGroupOpenAi 'privateDnsZoneGroups' = {
-    name: '${privateEndpointOpenAiName}-default'
+    name: '${privateEndpointOpenAIName}-default'
     properties: {
       privateDnsZoneConfigs: [
         {

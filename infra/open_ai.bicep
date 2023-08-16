@@ -9,7 +9,7 @@ param subnetName string
 param resourceGroup string
 param subscriptionId string
 
-resource open_ai 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
+resource openAI 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
   name: openAIName
   location: location
   kind: 'OpenAI'

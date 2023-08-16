@@ -36,15 +36,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
   }
 }
 
-
-resource privateEndpoint 'Microsoft.Network/privateEndpoints@2023-04-01' = {
+resource cogSearchPrivateEndpoint 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   location: location
   name: privateEndpointName
   properties: {
     subnet: {
       id: vnet::privateLinkSubnet.id
     }
-    customNetworkInterfaceName: 'pe-nic'
+    customNetworkInterfaceName: 'pe-nic-cogsearch'
     privateLinkServiceConnections: [
       {
         name: privateEndpointName

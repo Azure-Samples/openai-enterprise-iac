@@ -5,12 +5,12 @@
 param location string = resourceGroup().location
 
 @description('Azure Open AI SKU value')
-param openAiSku string = 'S0'
+param openAISku string = 'S0'
 
 @description('App Service SKU value')
 param appServiceSku string = 'S1'
 
-@description('The pricing tier of the search service you want to create')
+@description('The pricing tier of the cognitive search service you want to create')
 param cogSearchSku string = 'basic'
 
 @description('The name of the search service')
@@ -22,19 +22,20 @@ param openAIName string = '${uniqueString(resourceGroup().id)}-openaiservice'
 @description('The name of the app service')
 param appServiceName string = '${uniqueString(resourceGroup().id)}-appservice'
 
-@description('The name of the private endpoint')
-param privateEndpointName string = '${uniqueString(resourceGroup().id)}-cognitivesearch-privateendpoint'
+@description('The name of the cognitive search private endpoint')
+param cogSearchPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-cogsearch-privateendpoint'
 
-@description('The name of the private endpoint')
-param openAiPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-openai-privateendpoint'
+@description('The name of the Azure Open AI private endpoint')
+param openAIPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-openai-privateendpoint'
 
 @description('The name of the virtual network link')
 param virtualNetworkLinkName string = '${uniqueString(resourceGroup().id)}-virtualnetworklink'
 
 var vnetName = '${uniqueString(resourceGroup().id)}-vnet'
 var subnetName = '${uniqueString(resourceGroup().id)}-subnet'
-var pepSubnetName = '${uniqueString(resourceGroup().id)}-pep-subnet'
-var openAiPepSubnetName = '${uniqueString(resourceGroup().id)}-openai-pep-subnet'
+var cogSearchPepSubnetName = '${uniqueString(resourceGroup().id)}-pep-subnet'
+var openAIPepSubnetName = '${uniqueString(resourceGroup().id)}-openai-pep-subnet'
+var appServicePlanName = 'asp'
 
 
 module vnet './vnet.bicep' = {
@@ -42,8 +43,8 @@ module vnet './vnet.bicep' = {
   params: {
     location: location
     subnetName: subnetName
-    pepSubnetName: pepSubnetName
-    openAiPepSubnetName: openAiPepSubnetName
+    pepSubnetName: cogSearchPepSubnetName
+    openAIPepSubnetName: openAIPepSubnetName
     vnetName: vnetName
   }
 }
@@ -53,30 +54,24 @@ module appService './app_service.bicep' = {
   params: {
     location: location
     appName: appServiceName
-    appServicePlanName: 'asp'
+    appServicePlanName: appServicePlanName
     subnetName: subnetName
-    vnetName: vnetName
-    sku: appServiceSku
+    vnetName: vnet.name
+    appServiceSku: appServiceSku
   }
-  dependsOn: [
-    vnet
-  ]
 }
 
-module openAi './open_ai.bicep' = {
+module openAI './open_ai.bicep' = {
   name: openAIName
   params: {
     location: location
     openAIName: openAIName
-    sku: openAiSku
-    vnetName: vnetName
+    sku: openAISku
+    vnetName: vnet.name
     subnetName: subnetName
     resourceGroup: resourceGroup().name
     subscriptionId: subscription().id
   }
-  dependsOn: [
-    vnet
-  ]
 }
 
 module cognitiveSearch './cognitive_search.bicep' = {
@@ -86,40 +81,30 @@ module cognitiveSearch './cognitive_search.bicep' = {
     cogSearchSku: cogSearchSku
     cogServiceName: cogSearchName
   }
-  dependsOn: [
-    vnet
-  ]
 }
 
-module privateEndpointCognitiveSearch './private_endpoint_cognitivesearch.bicep' = {
-  name: privateEndpointName
+module cogSearchPrivateEndpoint './cognitive_search_private_endpoint.bicep' = {
+  name: cogSearchPrivateEndpointName
   params: {
-    cognitiveSearchService: cogSearchName
+    cognitiveSearchService: cognitiveSearch.name
     location: location
-    privateEndpointName: privateEndpointName
-    pepSubnetName: pepSubnetName
-    vnetName: vnetName
+    privateEndpointName: cogSearchPrivateEndpointName
+    pepSubnetName: cogSearchPepSubnetName
+    vnetName: vnet.name
     virtualNetworkId:virtualNetworkLinkName
   }
-  dependsOn: [
-    cognitiveSearch
-  ]
 }
 
-module privateEndpointOpenAi './private_endpoint_openai.bicep' = {
-  name: openAiPrivateEndpointName
+module openAIPrivateEndpoint './open_ai_private_endpoint.bicep' = {
+  name: openAIPrivateEndpointName
   params: {
-    openAiName: openAIName
+    openAIName: openAI.name
     location: location
-    privateEndpointOpenAiName: openAiPrivateEndpointName
-    openAiSubnetName: openAiPepSubnetName
+    privateEndpointOpenAIName: openAIPrivateEndpointName
+    openAISubnetName: openAIPepSubnetName
     vnetName: vnetName
   }
   dependsOn: [
-    openAi
-    privateEndpointCognitiveSearch
+    cogSearchPrivateEndpoint
   ]
 }
-
-
-

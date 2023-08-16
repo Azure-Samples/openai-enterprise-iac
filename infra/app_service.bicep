@@ -6,7 +6,7 @@ param appServicePlanName string
 param location string
 param vnetName string
 param subnetName string
-param sku string
+param appServiceSku string
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
   name: vnetName
@@ -19,7 +19,8 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanName
   location: location
   sku: {
-    name: sku
+    name: appServiceSku
+    tier: 'Standard'
   }
   properties: {
     reserved: true

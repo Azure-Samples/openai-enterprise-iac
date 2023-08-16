@@ -4,7 +4,7 @@
 param location string
 param subnetName string
 param pepSubnetName string
-param openAiPepSubnetName string
+param openAIPepSubnetName string
 param vnetName string
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
@@ -46,7 +46,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
         }
       }
       {
-        name: openAiPepSubnetName
+        name: openAIPepSubnetName
         properties: {
           addressPrefix: '10.0.2.0/24'
           privateEndpointNetworkPolicies: 'Disabled'
