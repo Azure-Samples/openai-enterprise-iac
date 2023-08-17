@@ -29,7 +29,10 @@ param cogSearchPrivateEndpointName string = '${uniqueString(resourceGroup().id)}
 param openAIPrivateEndpointName string = '${uniqueString(resourceGroup().id)}-openai-privateendpoint'
 
 @description('The name of the virtual network link')
-param virtualNetworkLinkName string = '${uniqueString(resourceGroup().id)}-virtualnetworklink'
+param cogSearchVirtualNetworkLinkName string = '${uniqueString(resourceGroup().id)}-virtualnetworklink'
+
+@description('The name of the virtual network link')
+param openAIVirtualNetworkLinkName string = '${uniqueString(resourceGroup().id)}-virtualnetworklink'
 
 var vnetName = '${uniqueString(resourceGroup().id)}-vnet'
 var subnetName = '${uniqueString(resourceGroup().id)}-subnet'
@@ -91,7 +94,7 @@ module cogSearchPrivateEndpoint './cognitive_search_private_endpoint.bicep' = {
     privateEndpointName: cogSearchPrivateEndpointName
     pepSubnetName: cogSearchPepSubnetName
     vnetName: vnet.name
-    virtualNetworkId:virtualNetworkLinkName
+    virtualNetworkId:cogSearchVirtualNetworkLinkName
   }
 }
 
@@ -103,6 +106,7 @@ module openAIPrivateEndpoint './open_ai_private_endpoint.bicep' = {
     privateEndpointOpenAIName: openAIPrivateEndpointName
     openAISubnetName: openAIPepSubnetName
     vnetName: vnetName
+    virtualNetworkId: openAIVirtualNetworkLinkName
   }
   dependsOn: [
     cogSearchPrivateEndpoint

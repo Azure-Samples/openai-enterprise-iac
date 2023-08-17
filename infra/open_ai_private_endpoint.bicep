@@ -6,13 +6,10 @@ param location string
 param openAISubnetName string
 param vnetName string
 param openAIName string
+param virtualNetworkId string
 
 resource openAI 'Microsoft.CognitiveServices/accounts@2022-03-01' existing = {
   name: openAIName
-}
-
-resource dnsZones 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: 'privatelink.search.windows.net'
 }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
@@ -22,6 +19,22 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' existing = {
   }
 }
 
+resource dnsZones 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+  name: 'privatelink.openai.azure.com'
+  location: 'global'
+  tags: {}
+  properties: {}
+  resource virtualNetworkLink 'virtualNetworkLinks' = {
+    name: virtualNetworkId
+    location: 'global'
+    properties: {
+      virtualNetwork: {
+        id: vnet.id
+      }
+      registrationEnabled: false
+    }
+  }
+}
 
 resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   location: location
@@ -49,7 +62,7 @@ resource privateEndpointOpenAi 'Microsoft.Network/privateEndpoints@2023-04-01' =
     properties: {
       privateDnsZoneConfigs: [
         {
-          name: 'privatelink-search-windows-net'
+          name: 'privatelink-openai-azure-com'
           properties: {
             privateDnsZoneId: dnsZones.id
           }
