@@ -1,57 +1,31 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
+Sets up a sample Azure Open AI infrastructure project with security considered
+
+![image](openaidiagrampe.svg)
+
+- Azure Open AI is only accessible from this VNET. Please see more information here: https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal
 
 ## Features
 
 This project framework provides the following features:
 
-* Feature 1
-* Feature 2
-* ...
+- Sets up app service, Azure Open AI service, cognitive search service, private endpoint, and VNet
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
+- Add bicep extension to Visual Studio Code (if developing)
 
 ### Quickstart
-(Add steps to get up and running quickly)
 
-1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
+1. git clone https://github.com/Azure-Samples/openai-enterprise-iac.git
+2. az group create --name [resourceGroupName] --location [location]
+3. az deployment group create --name [deploymentName] --resource-group [resourceGroupName] --template-file ["path to main.bicep"]
 
 ## Resources
 
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+- https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal
+- https://learn.microsoft.com/en-us/azure/ai-services/openai/overview
+- https://learn.microsoft.com/ja-jp/azure/ai-services/what-are-ai-services
