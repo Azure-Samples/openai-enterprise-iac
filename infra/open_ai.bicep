@@ -19,7 +19,7 @@ resource openAI 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
   }
   properties: {
     customSubDomainName: toLower(openAIName)
-    publicNetworkAccess: 'Enabled'
+    publicNetworkAccess: 'disabled'
     networkAcls: {
       defaultAction: 'Deny'
       virtualNetworkRules: json('[{"id": "${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Network/virtualNetworks/${vnetName}/subnets/${subnetName}"}]')

@@ -26,8 +26,6 @@ This project framework provides the following features:
 
 ## Resources
 
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+- https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal
+- https://learn.microsoft.com/en-us/azure/ai-services/openai/overview
+- https://learn.microsoft.com/ja-jp/azure/ai-services/what-are-ai-services
