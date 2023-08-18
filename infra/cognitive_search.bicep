@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param cogServiceName string
 param cogSearchSku string
 param location string
