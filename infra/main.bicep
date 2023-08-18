@@ -108,7 +108,4 @@ module openAIPrivateEndpoint './open_ai_private_endpoint.bicep' = {
     vnetName: vnetName
     virtualNetworkId: openAIVirtualNetworkLinkName
   }
-  dependsOn: [
-    cogSearchPrivateEndpoint
-  ]
 }
